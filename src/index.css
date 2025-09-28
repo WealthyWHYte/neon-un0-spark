@@ -177,13 +177,61 @@
     animation: neon-pulse 2s ease-in-out infinite;
   }
 
+  /* Sequential Border Animations */
+  .border-sequence-1 {
+    animation: border-glow-1 4s ease-in-out infinite;
+  }
+  
+  .border-sequence-2 {
+    animation: border-glow-2 4s ease-in-out infinite;
+  }
+  
+  .border-sequence-3 {
+    animation: border-glow-3 4s ease-in-out infinite;
+  }
+  
+  .border-sequence-4 {
+    animation: border-glow-4 4s ease-in-out infinite;
+  }
+
+  /* Flowing Particles */
+  .particle-red { 
+    background: hsl(var(--neon-red)); 
+    box-shadow: var(--glow-red);
+  }
+  .particle-yellow { 
+    background: hsl(var(--neon-yellow)); 
+    box-shadow: var(--glow-yellow);
+  }
+  .particle-green { 
+    background: hsl(var(--neon-green)); 
+    box-shadow: var(--glow-green);
+  }
+  .particle-blue { 
+    background: hsl(var(--neon-blue)); 
+    box-shadow: var(--glow-blue);
+  }
+
+  /* UNO Oval Background */
+  .uno-oval {
+    background: linear-gradient(135deg, 
+      hsl(var(--neon-red)) 0%,
+      hsl(var(--neon-yellow)) 25%,
+      hsl(var(--neon-green)) 50%,
+      hsl(var(--neon-blue)) 75%,
+      hsl(var(--neon-red)) 100%
+    );
+    animation: uno-color-shift 3s ease-in-out infinite;
+  }
+
+  /* Trippy Icon Colors */
+  .icon-trippy {
+    animation: icon-color-cycle 4s ease-in-out infinite;
+  }
+
   /* Neon Background Animation */
   .neon-bg {
-    background: radial-gradient(circle at 20% 80%, hsl(var(--neon-red) / 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, hsl(var(--neon-blue) / 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, hsl(var(--neon-green) / 0.05) 0%, transparent 50%),
-                hsl(var(--background));
-    animation: neon-shift 8s ease-in-out infinite;
+    background: hsl(var(--background));
   }
 
   /* Sidebar Glow */
@@ -229,6 +277,94 @@
     }
   }
 
+  @keyframes border-glow-1 {
+    0%, 25%, 100% { 
+      border-color: hsl(var(--neon-red));
+      box-shadow: var(--glow-red);
+      opacity: 1;
+    }
+    26%, 99% { 
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes border-glow-2 {
+    0%, 24% { opacity: 0.3; }
+    25%, 50% { 
+      border-color: hsl(var(--neon-yellow));
+      box-shadow: var(--glow-yellow);
+      opacity: 1;
+    }
+    51%, 100% { opacity: 0.3; }
+  }
+
+  @keyframes border-glow-3 {
+    0%, 49% { opacity: 0.3; }
+    50%, 75% { 
+      border-color: hsl(var(--neon-green));
+      box-shadow: var(--glow-green);
+      opacity: 1;
+    }
+    76%, 100% { opacity: 0.3; }
+  }
+
+  @keyframes border-glow-4 {
+    0%, 74% { opacity: 0.3; }
+    75%, 100% { 
+      border-color: hsl(var(--neon-blue));
+      box-shadow: var(--glow-blue);
+      opacity: 1;
+    }
+  }
+
+  @keyframes particle-flow {
+    0% {
+      transform: translate(0, 100vh) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--random-x), -100px) rotate(360deg);
+      opacity: 0;
+    }
+  }
+
+  @keyframes uno-color-shift {
+    0%, 100% {
+      background: linear-gradient(135deg, 
+        hsl(var(--neon-red)) 0%,
+        hsl(var(--neon-yellow)) 50%,
+        hsl(var(--neon-blue)) 100%
+      );
+    }
+    33% {
+      background: linear-gradient(135deg, 
+        hsl(var(--neon-yellow)) 0%,
+        hsl(var(--neon-green)) 50%,
+        hsl(var(--neon-red)) 100%
+      );
+    }
+    66% {
+      background: linear-gradient(135deg, 
+        hsl(var(--neon-green)) 0%,
+        hsl(var(--neon-blue)) 50%,
+        hsl(var(--neon-yellow)) 100%
+      );
+    }
+  }
+
+  @keyframes icon-color-cycle {
+    0%, 100% { color: hsl(var(--neon-red)); filter: drop-shadow(0 0 8px hsl(var(--neon-red))); }
+    25% { color: hsl(var(--neon-yellow)); filter: drop-shadow(0 0 8px hsl(var(--neon-yellow))); }
+    50% { color: hsl(var(--neon-green)); filter: drop-shadow(0 0 8px hsl(var(--neon-green))); }
+    75% { color: hsl(var(--neon-blue)); filter: drop-shadow(0 0 8px hsl(var(--neon-blue))); }
+  }
+
   .animate-neon-glow {
     animation: neon-glow 3s ease-in-out infinite;
   }
@@ -239,5 +375,17 @@
 
   .animate-neon-shift {
     animation: neon-shift 8s ease-in-out infinite;
+  }
+
+  .animate-particle-flow {
+    animation: particle-flow linear infinite;
+  }
+
+  .animate-uno-colors {
+    animation: uno-color-shift 3s ease-in-out infinite;
+  }
+
+  .animate-icon-trippy {
+    animation: icon-color-cycle 4s ease-in-out infinite;
   }
 }

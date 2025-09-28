@@ -1,8 +1,8 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { 
   BookOpen, 
   Scale, 
-  Gamepad2, 
   Users, 
   BarChart3, 
   Map, 
@@ -93,24 +93,70 @@ const getCardStyles = (color: string) => {
 };
 
 const Dashboard = () => {
+  // Generate floating particles
+  const [particles, setParticles] = useState<Array<{
+    id: number;
+    color: string;
+    size: number;
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+  }>>([]);
+
+  useEffect(() => {
+    const colors = ['red', 'yellow', 'green', 'blue'];
+    const newParticles = Array.from({ length: 25 }, (_, i) => ({
+      id: i,
+      color: colors[i % colors.length],
+      size: Math.random() * 2 + 1,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+    }));
+    setParticles(newParticles);
+
+    const interval = setInterval(() => {
+      setParticles(prev => prev.map(particle => ({
+        ...particle,
+        x: (particle.x + particle.vx + 100) % 100,
+        y: (particle.y + particle.vy + 100) % 100,
+      })));
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background neon-bg">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Floating Particles Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        {particles.map((particle) => (
+          <div
+            key={particle.id}
+            className={`absolute particle-${particle.color} rounded-full opacity-40`}
+            style={{
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              transition: 'all 0.05s linear',
+            }}
+          />
+        ))}
+      </div>
+
       {/* Header */}
-      <header className="border-b border-muted-foreground/20 bg-background/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-3">
-            <Gamepad2 className="h-8 w-8 text-neon-red" />
-            <h1 className="text-2xl font-bold text-neon-glow">Casino UN0</h1>
+      <header className="border-b border-muted-foreground/20 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-center">
+          <Link to="/" className="flex items-center space-x-3 relative">
+            {/* UNO Oval Background */}
+            <div className="absolute -inset-4 uno-oval rounded-full opacity-30 blur-sm"></div>
+            <h1 className="text-3xl font-bold animate-neon-glow relative z-10">
+              Casino UN0
+            </h1>
           </Link>
-          
-          <nav className="hidden md:flex space-x-6">
-            <Link to="/login" className="text-muted-foreground hover:text-neon-blue transition-colors">
-              Login
-            </Link>
-            <Button variant="outline" className="border-neon-red text-neon-red hover:bg-neon-red hover:text-black">
-              Access Code
-            </Button>
-          </nav>
         </div>
       </header>
 
@@ -133,11 +179,11 @@ const Dashboard = () => {
             const Icon = card.icon;
             return (
               <Link key={card.title} to={card.href}>
-                <Card className={`card-neon group cursor-pointer h-full ${getCardStyles(card.color)}`}>
+                <Card className="card-neon group cursor-pointer h-full hover:border-neon-glow transition-all duration-300 hover:shadow-neon-rainbow">
                   <CardHeader className="pb-4">
                     <div className="flex items-center space-x-3">
-                      <Icon className={`h-6 w-6 text-neon-${card.color} group-hover:animate-pulse`} />
-                      <CardTitle className="text-lg font-semibold group-hover:text-neon-glow transition-colors">
+                      <Icon className="h-6 w-6 animate-icon-trippy group-hover:scale-110 transition-transform duration-300" />
+                      <CardTitle className="text-lg font-semibold group-hover:animate-neon-glow transition-colors">
                         {card.title}
                       </CardTitle>
                     </div>
